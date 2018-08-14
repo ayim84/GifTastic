@@ -1,3 +1,6 @@
+// Why isn't a click on the gif registering?
+// Why is the submit button working w/o click function in js?  Need to add preventDefault() to click event.
+
 $(document).ready(function()
 {
     var sportsArray = ["Soccer", "Archery", "Badminton", "Pickleball", "Ping Pong", "Volleyball", "Basketball", "Baseball", "Cricket", "Kickball", "Wiffleball", "Skateboarding", "Snowboarding", "Surfing", "Wakeboarding", "Dodgeball", "Pocket Billiards", "Snooker", "American Football", "Golf", "Handball", "Ice Hockey", "Skiing", "Snowboarding", "Lacrosse"]
@@ -10,7 +13,7 @@ $(document).ready(function()
         (
             {
                 "type": "button",
-                "class": "btn btn-primary buttonMargin",
+                "class": "btn btn-primary buttonMargin gifButton",
                 "data-sport": sportsArray[i]
             }
         );
@@ -18,12 +21,14 @@ $(document).ready(function()
         $("#buttonsHere").append(newButton);
     }
 
-    $("button").on("click", function()
+    $(".gifButton").on("click", function()
     {
         var sport = $(this).attr("data-sport");
         var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=wyzjfv91gXzOwS3rqmZNiHLTXWRTxD1b&q=" + sport + "&limit=10";
     
         console.log(queryURL);
+
+        $("#gifContent").text("");
 
         $.ajax({
             url: queryURL,
@@ -38,7 +43,7 @@ $(document).ready(function()
                 var cardDiv = $("<div>");
                 cardDiv.attr(
                 {
-                    "class": "card",
+                    "class": "card cardMargin",
                     "style": "width: 18rem;"
                 });
     
@@ -66,29 +71,27 @@ $(document).ready(function()
 
                 $("#gifContent").prepend(cardDiv);
             }
+            
+            $(".gif").on("click", function ()
+            {
+                console.log("poop");
+                var state = $(this).attr("data-state");
+        
+                if(state == "still")
+                {
+                    $(this).attr
+                    (
+                    {
+                        "src":$(this).attr("data-animate"), 
+                        "data-state":"animate"
+                    }
+                    );
+                }
+                else
+                {
+                    $(this).attr({"src":$(this).attr("data-still"), "data-state":"still"});
+                }
+            });
         });
     });
-
-    
-
-    // $(".gif").on("click", function ()
-    // {
-    //     console.log("poop");
-    //     var state = $(this).attr("data-state");
-
-    //     if(state == "still")
-    //     {
-    //         $(this).attr
-    //         (
-    //         {
-    //             "src":$(this).attr("data-animate"), 
-    //             "data-state":"animate"
-    //         }
-    //         );
-    //     }
-    //     else
-    //     {
-    //         $(this).attr({"src":$(this).attr("data-still"), "data-state":"still"});
-    //     }
-    // });
 });

@@ -5,5 +5,15 @@
 
 .buttonMargin
 {
-    margin: 5px;
+    margin: 0.5%;
+}
+
+.cardMargin
+{
+    margin: 1%;
+}
+
+#gifContent
+{
+    margin: 1% 7%;
 }
