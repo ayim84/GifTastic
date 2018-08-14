@@ -19,7 +19,9 @@
     <body>
         <div class="jumbotron center">
             <h1 class="display-4">GifTastic</h1>
-            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+            <p class="lead">Click on a button to see gifs for that sport.</p>
+            <p class = "lead">You can also enter a new sport in the search field too add a new sport button.</p>
+            <p class = "lead">Click on a gif to see its animation and click again to stop it.</p>
         </div>
         <div class = "container">
             <div class = "row">
@@ -28,28 +30,16 @@
             <hr class="my-4">
         </div>
         <div class = "container">
-            <div class = "row">
+            <div class = "row d-flex justify-content-center">
                 <form>
                     <div class="form-group">
-                        <label for="addSport">Add a sport</label>
-                        <input type="text" class="form-control" id="addSport" aria-describedby="addSport" placeholder="Enter sport">
+                        <label for="sportInput">Add a sport</label>
+                        <input type="text" class="form-control" id="sportInput" aria-describedby="sportInput" placeholder="Enter sport">
                     </div>  
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-secondary" id = "addSport">Submit</button>
                 </form>
             </div>
-            <div class = "row" id = "gifContent">
-                <!-- <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="https://media2.giphy.com/media/eKIXKFcp4oibK/200_s.gif" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class = "card-title">Title</h5>
-                    </div>
-                </div> -->
-            <!-- </div>
-                <div class = "col-md-9" id = "gifContent">
-                </div>
-                <div class = "col-md-3">
-                    <p>Search goes here</p>
-            </div> -->
+            <div class = "row" id = "gifContent"><!-- Gifs go here --></div>
         </div>        
     </body>
 </html>

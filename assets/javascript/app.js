@@ -1,97 +1,137 @@
-// Why isn't a click on the gif registering?
-// Why is the submit button working w/o click function in js?  Need to add preventDefault() to click event.
-
 $(document).ready(function()
 {
     var sportsArray = ["Soccer", "Archery", "Badminton", "Pickleball", "Ping Pong", "Volleyball", "Basketball", "Baseball", "Cricket", "Kickball", "Wiffleball", "Skateboarding", "Snowboarding", "Surfing", "Wakeboarding", "Dodgeball", "Pocket Billiards", "Snooker", "American Football", "Golf", "Handball", "Ice Hockey", "Skiing", "Snowboarding", "Lacrosse"]
 
-    
-    for(var i = 0; i < sportsArray.length; i++)
+    function addButtons()
     {
-        var newButton = $("<button>");
-        newButton.attr
-        (
-            {
-                "type": "button",
-                "class": "btn btn-primary buttonMargin gifButton",
-                "data-sport": sportsArray[i]
-            }
-        );
-        newButton.text(sportsArray[i]);
-        $("#buttonsHere").append(newButton);
+        for(var i = 0; i < sportsArray.length; i++)
+        {
+            var newButton = $("<button>");
+            newButton.attr
+            (
+                {
+                    "type": "button",
+                    "class": "btn btn-primary buttonMargin gifButton",
+                    "data-sport": sportsArray[i]
+                }
+            );
+            newButton.text(sportsArray[i]);
+            $("#buttonsHere").append(newButton);
+        }
     }
 
-    $(".gifButton").on("click", function()
+    function addGif()
     {
-        var sport = $(this).attr("data-sport");
-        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=wyzjfv91gXzOwS3rqmZNiHLTXWRTxD1b&q=" + sport + "&limit=10";
-    
-        console.log(queryURL);
-
-        $("#gifContent").text("");
-
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function(response)
+        $(".gifButton").on("click", function()
         {
-            console.log(response);
-            var results = response.data;
-
-            for(var i = 0; i < results.length; i++)
-            {
-                var cardDiv = $("<div>");
-                cardDiv.attr(
-                {
-                    "class": "card cardMargin",
-                    "style": "width: 18rem;"
-                });
-    
-                var sportGifStill = $("<img>");
-                sportGifStill.attr(
-                {
-                    "class": "card-img-top gif",
-                    "alt": "Card image cap",
-                    "src": results[i].images.fixed_height_still.url,
-                    "data-still": results[i].images.fixed_height_still.url,
-                    "data-animate": results[i].images.fixed_height.url,
-                    "data-state": "still"
-                });
-    
-                var cardBodyDiv = $("<div>");
-                cardBodyDiv.attr("class", "card-body");
-    
-                var rating = results[i].rating;
-                var ratingTitle = $("<h5>").text("Rating: " + rating);
-                ratingTitle.attr("class", "card-title");
-    
-                cardBodyDiv.append(ratingTitle);
-                cardDiv.append(sportGifStill);
-                cardDiv.append(cardBodyDiv);
-
-                $("#gifContent").prepend(cardDiv);
-            }
-            
-            $(".gif").on("click", function ()
-            {
-                console.log("poop");
-                var state = $(this).attr("data-state");
+            var sport = $(this).attr("data-sport");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=wyzjfv91gXzOwS3rqmZNiHLTXWRTxD1b&q=" + sport + "&limit=10";
         
-                if(state == "still")
+            console.log(queryURL);
+    
+            $("#gifContent").text("");
+    
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function(response)
+            {
+                console.log(response);
+                var results = response.data;
+    
+                for(var i = 0; i < results.length; i++)
                 {
-                    $(this).attr
-                    (
+                    var cardDiv = $("<div>");
+                    cardDiv.attr(
                     {
-                        "src":$(this).attr("data-animate"), 
-                        "data-state":"animate"
-                    }
-                    );
+                        "class": "card cardMargin",
+                        "style": "width: 18rem;"
+                    });
+        
+                    var sportGifStill = $("<img>");
+                    sportGifStill.attr(
+                    {
+                        "class": "card-img-top gif",
+                        "alt": "Card image cap",
+                        "src": results[i].images.fixed_height_still.url,
+                        "data-still": results[i].images.fixed_height_still.url,
+                        "data-animate": results[i].images.fixed_height.url,
+                        "data-state": "still"
+                    });
+        
+                    var cardBodyDiv = $("<div>");
+                    cardBodyDiv.attr("class", "card-body");
+        
+                    var rating = results[i].rating;
+                    var ratingTitle = $("<h5>").text("Rating: " + rating);
+                    ratingTitle.attr("class", "card-title");
+        
+                    cardBodyDiv.append(ratingTitle);
+                    cardDiv.append(sportGifStill);
+                    cardDiv.append(cardBodyDiv);
+    
+                    $("#gifContent").prepend(cardDiv);
                 }
-                else
+                
+                $(".gif").on("click", function ()
                 {
-                    $(this).attr({"src":$(this).attr("data-still"), "data-state":"still"});
-                }
+                    console.log("poop");
+                    var state = $(this).attr("data-state");
+            
+                    if(state == "still")
+                    {
+                        $(this).attr
+                        (
+                        {
+                            "src":$(this).attr("data-animate"), 
+                            "data-state":"animate"
+                        }
+                        );
+                    }
+                    else
+                    {
+                        $(this).attr({"src":$(this).attr("data-still"), "data-state":"still"});
+                    }
+                });
             });
         });
-    });
+    }
+
+    function addSport()
+    {
+        $("#addSport").on("click", function(event)
+        {   
+            event.preventDefault();
+            var sport = $("#sportInput").val().trim();
+            console.log(sport);
+
+            if(sport == "")
+            {
+                alert("Please enter a sport.");
+                return;
+            }
+            else{
+                for(var i = 0; i < sportsArray.length; i++)
+                {
+                    if(sport.toLowerCase() == sportsArray[i].toLowerCase())
+                    {
+                        alert("Sport already exists!");
+                        $("#sportInput").val("");
+                        return;
+                    }
+                }
+            }
+    
+            $("#buttonsHere").text("");
+            sportsArray.push(sport);
+            $("#sportInput").val("");
+            addButtons();
+            addGif();
+        });
+    }
+
+    addButtons();
+    addGif();
+    addSport();
+
 });
